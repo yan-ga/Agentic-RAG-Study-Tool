@@ -1,0 +1,174 @@
+"""
+Evaluation script for hybrid retrieval strategy.
+Tests on easy.jsonl and hard.jsonl test files.
+"""
+
+import os
+import sys
+import json
+import re
+import numpy as np
+from rank_bm25 import BM25Okapi
+from sentence_transformers import SentenceTransformer
+from collections import defaultdict
+
+# Paths
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(os.path.dirname(SCRIPT_DIR), "data")
+CHUNKS_PATH = os.path.join(DATA_DIR, "new_chunks.jsonl")
+EMBEDDINGS_PATH = os.path.join(DATA_DIR, "new_embeddings.npy")
+EASY_PATH = os.path.join(SCRIPT_DIR, "easy.jsonl")
+HARD_PATH = os.path.join(SCRIPT_DIR, "hard.jsonl")
+
+
+def tokenize(text):
+    """Tokenize text for BM25."""
+    return re.findall(r"[a-z0-9]+", text.lower())
+
+
+def load_chunks(chunks_jsonl):
+    """Load chunks from JSONL file."""
+    chunks = []
+    with open(chunks_jsonl, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                chunks.append(json.loads(line))
+    return chunks
+
+
+def load_test_data(test_jsonl):
+    """Load test questions from JSONL file."""
+    tests = []
+    with open(test_jsonl, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                tests.append(json.loads(line))
+    return tests
+
+
+def minmax(x):
+    """Min-max normalization."""
+    x = x.astype(np.float32)
+    lo, hi = float(x.min()), float(x.max())
+    if hi - lo < 1e-8:
+        return np.zeros_like(x, dtype=np.float32)
+    return (x - lo) / (hi - lo)
+
+
+def retrieve_hybrid(chunks, chunk_ids, emb, bm25, model, query, top_k=10, alpha=0.5):
+    """
+    Hybrid retrieval combining BM25 and embeddings.
+    Returns list of (chunk_id, score) tuples.
+    """
+    # BM25 scores
+    bm25_scores = np.array(bm25.get_scores(tokenize(query)), dtype=np.float32)
+
+    # Embedding scores
+    q = model.encode([query], normalize_embeddings=True)[0]
+    emb_scores = (emb @ q).astype(np.float32)
+
+    # Hybrid combination
+    final = alpha * minmax(bm25_scores) + (1 - alpha) * minmax(emb_scores)
+    ranked_indices = np.argsort(-final)[:top_k]
+
+    return [(chunk_ids[i], final[i]) for i in ranked_indices]
+
+
+def evaluate_retrieval(test_data, chunks, chunk_ids, emb, bm25, model, top_k_values=[1, 3, 5, 10], alpha=0.5):
+    """
+    Evaluate retrieval performance.
+
+    Metrics:
+    - Recall@k: fraction of relevant items found in top-k
+    - Hit@k: fraction of queries with at least one relevant item in top-k
+    - MRR: Mean Reciprocal Rank
+    """
+    metrics = defaultdict(list)
+
+    for test in test_data:
+        question = test["question"]
+        relevant_ids = set(test["relevant_chunk_ids"])
+
+        # Get top-k results (use max k)
+        max_k = max(top_k_values)
+        results = retrieve_hybrid(chunks, chunk_ids, emb, bm25, model, question, top_k=max_k, alpha=alpha)
+        retrieved_ids = [r[0] for r in results]
+
+        # Compute MRR (find first relevant result)
+        rr = 0.0
+        for rank, chunk_id in enumerate(retrieved_ids, 1):
+            if chunk_id in relevant_ids:
+                rr = 1.0 / rank
+                break
+        metrics["mrr"].append(rr)
+
+        # Compute Recall@k and Hit@k for each k
+        for k in top_k_values:
+            top_k_ids = set(retrieved_ids[:k])
+            hits = len(top_k_ids & relevant_ids)
+            recall = hits / len(relevant_ids) if relevant_ids else 0.0
+            hit = 1.0 if hits > 0 else 0.0
+
+            metrics[f"recall@{k}"].append(recall)
+            metrics[f"hit@{k}"].append(hit)
+
+    # Average metrics
+    avg_metrics = {k: np.mean(v) for k, v in metrics.items()}
+    return avg_metrics
+
+
+def main():
+    os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+    print("=" * 60)
+    print("Hybrid Retrieval Evaluation")
+    print("=" * 60)
+
+    # Load data
+    print("\nLoading chunks...")
+    chunks = load_chunks(CHUNKS_PATH)
+    chunk_ids = [c["chunk_id"] for c in chunks]
+    print(f"  Loaded {len(chunks)} chunks")
+
+    print("Loading embeddings...")
+    emb = np.load(EMBEDDINGS_PATH)
+    print(f"  Embeddings shape: {emb.shape}")
+
+    print("Building BM25 index...")
+    corpus_tokens = [tokenize(c["text"]) for c in chunks]
+    bm25 = BM25Okapi(corpus_tokens)
+
+    print("Loading sentence transformer model...")
+    model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+
+    # Load test data
+    print("\nLoading test data...")
+    easy_tests = load_test_data(EASY_PATH)
+    hard_tests = load_test_data(HARD_PATH)
+    print(f"  Easy: {len(easy_tests)} questions")
+    print(f"  Hard: {len(hard_tests)} questions")
+
+    # Evaluate with alpha = 0.5 (as in ask.py)
+    top_k_values = [1, 3, 5, 10]
+    alpha = 0.5
+
+    print(f"\nAlpha = {alpha} (BM25={alpha:.0%}, Embedding={1-alpha:.0%})")
+    print("=" * 60)
+
+    # Evaluate on easy
+    print("\n[EASY TEST SET]")
+    easy_metrics = evaluate_retrieval(easy_tests, chunks, chunk_ids, emb, bm25, model, top_k_values, alpha)
+    print(f"  MRR:       {easy_metrics['mrr']:.4f}")
+    for k in top_k_values:
+        print(f"  Hit@{k}:    {easy_metrics[f'hit@{k}']:.4f}  |  Recall@{k}: {easy_metrics[f'recall@{k}']:.4f}")
+
+    # Evaluate on hard
+    print("\n[HARD TEST SET]")
+    hard_metrics = evaluate_retrieval(hard_tests, chunks, chunk_ids, emb, bm25, model, top_k_values, alpha)
+    print(f"  MRR:       {hard_metrics['mrr']:.4f}")
+    for k in top_k_values:
+        print(f"  Hit@{k}:    {hard_metrics[f'hit@{k}']:.4f}  |  Recall@{k}: {hard_metrics[f'recall@{k}']:.4f}")
+
+
+if __name__ == "__main__":
+    main()

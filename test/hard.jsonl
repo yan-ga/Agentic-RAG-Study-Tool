@@ -1,0 +1,169 @@
+{"question":"How do we summarize an image by colour frequency?","relevant_chunk_ids":["lecture6_p016"]}
+{"question":"Which texture feature uses neighbour-threshold binary codes?","relevant_chunk_ids":["lecture6_p027"]}
+{"question":"Which method gives scale/rotation-invariant keypoints + descriptors? Steps?","relevant_chunk_ids":["lecture6_p034"]}
+{"question":"How do we match local feature descriptors between images?","relevant_chunk_ids":["lecture6_p043"]}
+{"question":"Common geometric warps for image alignment?","relevant_chunk_ids":["lecture6_p047"]}
+{"question":"How to fit a transform from point correspondences (least squares)?","relevant_chunk_ids":["lecture6_p057"]}
+{"question":"Clustering that alternates assignment and centroid update?","relevant_chunk_ids":["lecture7_p008"]}
+{"question":"Why turn many local features into one fixed-length vector?","relevant_chunk_ids":["lecture7_p007"]}
+{"question":"Descriptor that pools edge directions over cells/blocks?","relevant_chunk_ids":["lecture7_p039"]}
+{"question":"Key geometry measures for a binary region?","relevant_chunk_ids":["lecture7_p019"]}
+{"question":"Classifier: pick class whose mean is closest?","relevant_chunk_ids":["lecture8_p021"]}
+{"question":"Choose class by minimizing expected risk from posteriors?","relevant_chunk_ids":["lecture8_p041"]}
+{"question":"Tree impurity measure for label uncertainty?","relevant_chunk_ids":["lecture8_p050"]}
+{"question":"Tree split score: reduction in uncertainty?","relevant_chunk_ids":["lecture8_p051"]}
+{"question":"Ensemble of randomized trees with voting?","relevant_chunk_ids":["lecture8_p060"]}
+{"question":"Max-margin hyperplane classifier?","relevant_chunk_ids":["lecture9_p010"]}
+{"question":"Why allow margin violations (slack) in max-margin?","relevant_chunk_ids":["lecture9_p017"]}
+{"question":"Table of predicted vs true labels?","relevant_chunk_ids":["lecture9_p028"]}
+{"question":"Metric for correctness of predicted positives vs coverage of true positives?","relevant_chunk_ids":["lecture9_p030"]}
+{"question":"TPR vs FPR curve across thresholds?","relevant_chunk_ids":["lecture9_p026"]}
+{"question":"Why evaluate by training on folds and testing held-out?","relevant_chunk_ids":["lecture9_p041"]}
+{"question":"How to label connected pixel regions in a binary image?","relevant_chunk_ids":["lecture10_p022"]}
+{"question":"Segmentation by flooding basins on a topographic surface?","relevant_chunk_ids":["lecture10_p026"]}
+{"question":"Segmentation solvable via minimum cut on a graph?","relevant_chunk_ids":["lecture10_p048"]}
+{"question":"Mask overlap scores using intersection/union?","relevant_chunk_ids":["lecture10_p063"]}
+{"question":"Operation: sliding learned filters to produce feature maps?","relevant_chunk_ids":["lecture12_p046"]}
+{"question":"Setting that controls filter step size and output resolution?","relevant_chunk_ids":["lecture12_p059"]}
+{"question":"Add border values to preserve spatial size—what/why?","relevant_chunk_ids":["lecture12_p060"]}
+{"question":"Expand receptive field by spacing kernel elements—what is it?","relevant_chunk_ids":["lecture12_p063"]}
+{"question":"Layer that downsamples to reduce compute and shift sensitivity?","relevant_chunk_ids":["lecture12_p048"]}
+{"question":"Normalize activations within a mini-batch—what and why?","relevant_chunk_ids":["lecture13_p056"]}
+{"question":"Regularizer that randomly zeros activations—why?","relevant_chunk_ids":["lecture13_p054"]}
+{"question":"Why use flips/crops/rotations during training?","relevant_chunk_ids":["lecture13_p043"]}
+{"question":"Stop training when validation stops improving—why?","relevant_chunk_ids":["lecture13_p042"]}
+{"question":"Why do different optimizers change convergence?","relevant_chunk_ids":["lecture13_p057"]}
+{"question":"Deep net with skip connections to avoid degradation?","relevant_chunk_ids":["lecture13_p020"]}
+{"question":"Overlap ratio to match predicted vs true boxes?","relevant_chunk_ids":["lecture14_p009"]}
+{"question":"Proposal method using hierarchical region grouping?","relevant_chunk_ids":["lecture14_p020"]}
+{"question":"Detector: propose regions then classify with CNN features?","relevant_chunk_ids":["lecture14_p024"]}
+{"question":"Handle variable-size RoIs via multi-level pooling (no resizing)?","relevant_chunk_ids":["lecture14_p030"]}
+{"question":"Share conv once, then classify RoIs (no per-proposal CNN)?","relevant_chunk_ids":["lecture14_p031"]}
+{"question":"Two-stage detector with in-network learned proposals?","relevant_chunk_ids":["lecture14_p041"]}
+{"question":"Proposal-based vs single-pass detection: key difference?","relevant_chunk_ids":["lecture14_p052"]}
+{"question":"One-shot grid detector predicting boxes + classes directly?","relevant_chunk_ids":["lecture14_p057"]}
+{"question":"Multi-scale feature maps to detect different object sizes?","relevant_chunk_ids":["lecture14_p062"]}
+{"question":"One-stage detector that introduced focal loss?","relevant_chunk_ids":["lecture14_p063"]}
+{"question":"Encoder–decoder segmentation net with skip connections?","relevant_chunk_ids":["lecture15_p028"]}
+{"question":"Why avoid quantization when extracting RoI features?","relevant_chunk_ids":["lecture15_p035"]}
+{"question":"RoI feature extraction using bilinear interpolation?","relevant_chunk_ids":["lecture15_p036"]}
+{"question":"Flow constraint from brightness constancy—what is it?","relevant_chunk_ids":["lecture16_p026"]}
+{"question":"Recursive tracking: predict + update steps?","relevant_chunk_ids":["lecture17_p022"]}
+{"question":"Segmentation by separating pixels based on intensity threshold?","relevant_chunk_ids":["lecture10_p010"]}
+{"question":"How do 4-connected and 8-connected differ in 2D images?","relevant_chunk_ids":["lecture10_p020"]}
+{"question":"Iterative clustering that shifts toward density peaks?","relevant_chunk_ids":["lecture10_p034"]}
+{"question":"Regions stable across multiple intensity thresholds?","relevant_chunk_ids":["lecture10_p030"]}
+{"question":"Expand a region by adding similar neighboring pixels?","relevant_chunk_ids":["lecture10_p023"]}
+{"question":"How do classification, localization, semantic and instance segmentation differ?","relevant_chunk_ids":["lecture10_p005"]}
+{"question":"Non-linear activation that outputs max(0, x)?","relevant_chunk_ids":["lecture12_p017"]}
+{"question":"Layer where every neuron connects to all previous neurons?","relevant_chunk_ids":["lecture12_p012"]}
+{"question":"Machine learning subset using multi-layer neural networks?","relevant_chunk_ids":["lecture12_p022"]}
+{"question":"Transformer architecture applied to image patches for classification?","relevant_chunk_ids":["lecture13_p026"]}
+{"question":"CNN that won ImageNet 2012 using ReLU and dropout?","relevant_chunk_ids":["lecture13_p016"]}
+{"question":"Deep network using small 3x3 filters throughout (16/19 layers)?","relevant_chunk_ids":["lecture13_p017"]}
+{"question":"Network with multi-branch parallel convolutions at different scales?","relevant_chunk_ids":["lecture13_p019"]}
+{"question":"Architecture where each layer receives all previous feature maps?","relevant_chunk_ids":["lecture13_p022"]}
+{"question":"Network that uniformly scales depth, width, and resolution together?","relevant_chunk_ids":["lecture13_p023"]}
+{"question":"Dataset of 70,000 handwritten digit images (28x28)?","relevant_chunk_ids":["lecture13_p009"]}
+{"question":"Dataset of 60,000 color images in 10 classes (32x32)?","relevant_chunk_ids":["lecture13_p011"]}
+{"question":"Large-scale dataset with 14 million images and 21,000+ classes?","relevant_chunk_ids":["lecture13_p012"]}
+{"question":"Algorithm to remove overlapping detection boxes keeping highest confidence?","relevant_chunk_ids":["lecture14_p047"]}
+{"question":"Predefined boxes of various scales and aspect ratios for detection?","relevant_chunk_ids":["lecture14_p042"]}
+{"question":"One-stage detector using multi-scale feature maps without proposals?","relevant_chunk_ids":["lecture14_p054"]}
+{"question":"Detecting moving objects by comparing frames to a static background?","relevant_chunk_ids":["lecture16_p009"]}
+{"question":"Subtracting background image from current frame to find changes?","relevant_chunk_ids":["lecture16_p011"]}
+{"question":"2D displacement vector representing point movement between frames?","relevant_chunk_ids":["lecture16_p016"]}
+{"question":"Estimating motion at selected interest points rather than all pixels?","relevant_chunk_ids":["lecture16_p017"]}
+{"question":"Video transformer using divided space-time attention?","relevant_chunk_ids":["lecture15_p066"]}
+{"question":"Transformer processing video by factorizing spatial and temporal attention?","relevant_chunk_ids":["lecture15_p068"]}
+{"question":"First CNN for digit recognition using backpropagation (1989)?","relevant_chunk_ids":["lecture13_p015"]}
+{"question":"Network that adaptively reweights channel features?","relevant_chunk_ids":["lecture13_p021"]}
+{"question":"Modern ConvNet modernizing ResNet with transformer-era techniques?","relevant_chunk_ids":["lecture13_p027"]}
+{"question":"Operation that expands foreground regions using a small kernel?","relevant_chunk_ids":["lecture11_p005"]}
+{"question":"Operation that shrinks foreground by removing boundary pixels?","relevant_chunk_ids":["lecture11_p006"]}
+{"question":"Small shape template used in morphological operations?","relevant_chunk_ids":["lecture11_p007"]}
+{"question":"Erosion then dilation to remove small foreground noise?","relevant_chunk_ids":["lecture11_p009"]}
+{"question":"Dilation then erosion to fill small holes in foreground?","relevant_chunk_ids":["lecture11_p010"]}
+{"question":"Computing each pixel's distance to nearest background?","relevant_chunk_ids":["lecture11_p016"]}
+{"question":"Thinning objects to one-pixel-wide centerlines?","relevant_chunk_ids":["lecture11_p021"]}
+{"question":"Convolution with kernels spanning space and time for video?","relevant_chunk_ids":["lecture15_p045"]}
+{"question":"3D CNN architecture for learning spatiotemporal video features?","relevant_chunk_ids":["lecture15_p055"]}
+{"question":"Network with separate spatial and temporal CNN streams fused for video?","relevant_chunk_ids":["lecture15_p061"]}
+{"question":"CNN features fed into LSTM for video sequence modeling?","relevant_chunk_ids":["lecture15_p064"]}
+{"question":"Video dataset with 13,000+ clips across 101 action classes?","relevant_chunk_ids":["lecture15_p050"]}
+{"question":"Large-scale video dataset with 400-700 human action classes?","relevant_chunk_ids":["lecture15_p051"]}
+{"question":"Learnable upsampling that reverses convolution's spatial reduction?","relevant_chunk_ids":["lecture15_p020"]}
+{"question":"Simple camera model where light passes through a single point?","relevant_chunk_ids":["lecture2_p010"]}
+{"question":"3D-to-2D projection where far objects appear smaller?","relevant_chunk_ids":["lecture2_p025"]}
+{"question":"Point where parallel 3D lines converge in a 2D image?","relevant_chunk_ids":["lecture2_p016"]}
+{"question":"Color space with red, green, and blue channels?","relevant_chunk_ids":["lecture2_p031"]}
+{"question":"Color space separating hue, saturation, and brightness?","relevant_chunk_ids":["lecture2_p032"]}
+{"question":"Perceptually uniform color space where distances match human perception?","relevant_chunk_ids":["lecture2_p034"]}
+{"question":"Slide with 2D grids showing arrows for 4 vs 8 neighbor pixel connections?","relevant_chunk_ids":["lecture10_p020"]}
+{"question":"Diagram showing topographic surface with water flooding basins and building dams?","relevant_chunk_ids":["lecture10_p025"]}
+{"question":"Image showing colorful blob regions from watershed applied to circular spots?","relevant_chunk_ids":["lecture10_p027"]}
+{"question":"Three brain MRI images showing white region expanding from seed points?","relevant_chunk_ids":["lecture10_p024"]}
+{"question":"Diagram with blue 3D data block and orange/green cubes showing temporal convolution?","relevant_chunk_ids":["lecture15_p045"]}
+{"question":"Architecture diagram with contracting path, expanding path, and skip connections for segmentation?","relevant_chunk_ids":["lecture15_p028"]}
+{"question":"Diagram with two parallel CNN streams processing single frame and optical flow separately?","relevant_chunk_ids":["lecture15_p061"]}
+{"question":"Diagram showing image flowing through convolution, pooling, flattening to fully connected layer?","relevant_chunk_ids":["lecture12_p053"]}
+{"question":"Interactive diagram with sliders for input size, kernel size, and step amount?","relevant_chunk_ids":["lecture12_p058"]}
+{"question":"Diagram showing input matrix, after-padding matrix, and output with border pixels added?","relevant_chunk_ids":["lecture12_p060"]}
+{"question":"3D isometric diagram with green filter grid spaced apart over blue input grid?","relevant_chunk_ids":["lecture12_p064"]}
+{"question":"Two 3x3 tables showing filter output before and after replacing negatives with zero?","relevant_chunk_ids":["lecture12_p065"]}
+{"question":"Diagram with 2x2 pooled grid and arrow to vertical list of same numbers?","relevant_chunk_ids":["lecture12_p051"]}
+{"question":"3D blocks showing 32x32x3 image and 5x5x3 kernel sliding spatially?","relevant_chunk_ids":["lecture12_p068"]}
+{"question":"Diagram showing 6 filters producing 6 stacked 28x28 feature maps?","relevant_chunk_ids":["lecture12_p075"]}
+{"question":"Colorful parrot photo split into three separate red, green, blue channel images?","relevant_chunk_ids":["lecture2_p030"]}
+{"question":"3D cone diagram showing hue around circumference and saturation/value on axes?","relevant_chunk_ids":["lecture2_p032"]}
+{"question":"Railroad tracks photo showing parallel lines converging to horizon point?","relevant_chunk_ids":["lecture2_p016"]}
+{"question":"Diagram with light rays passing through single point onto image plane with focal length?","relevant_chunk_ids":["lecture2_p010"]}
+{"question":"Gradient image with gray circles asking which objects appear brighter?","relevant_chunk_ids":["lecture1_p006"]}
+{"question":"Digital camera showing group photo with green bounding boxes around detected faces?","relevant_chunk_ids":["lecture1_p019"]}
+{"question":"Panoramic red terrain photo from NASA rover showing Martian surface?","relevant_chunk_ids":["lecture1_p025"]}
+{"question":"Car diagram with labeled rear, side, and forward camera positions for driving?","relevant_chunk_ids":["lecture1_p024"]}
+{"question":"Scanned document and license plate images converted to text characters?","relevant_chunk_ids":["lecture1_p022"]}
+{"question":"Person with camera photo showing original grayscale and colored cluster labels?","relevant_chunk_ids":["lecture10_p015"]}
+{"question":"Grid showing same pixels labeled as 10 objects vs 1 object depending on neighbor rules?","relevant_chunk_ids":["lecture10_p021"]}
+{"question":"Street photo with 3D scatter plot showing color data points clustered in L*a*b* space?","relevant_chunk_ids":["lecture10_p032"]}
+{"question":"Grid of images showing segmentation with different colored regions for each threshold level?","relevant_chunk_ids":["lecture10_p031"]}
+{"question":"Binary grid showing white pixels expanding outward after morphological operation?","relevant_chunk_ids":["lecture11_p005"]}
+{"question":"Bar chart comparing ResNet, ConvNeXt, and Swin transformer accuracy metrics?","relevant_chunk_ids":["lecture13_p027"]}
+{"question":"3D surface plot showing rugged loss landscape with valleys and optimization path?","relevant_chunk_ids":["lecture13_p033"]}
+{"question":"Flowchart showing whole data split into training, validation, and test sets?","relevant_chunk_ids":["lecture13_p034"]}
+{"question":"Graph with loss function curves and shaded underfitting/overfitting regions?","relevant_chunk_ids":["lecture13_p039"]}
+{"question":"Fruit images showing original and salt-pepper noise versions side by side?","relevant_chunk_ids":["lecture13_p044"]}
+{"question":"3x3 grid of cat face crops showing different cropped sections?","relevant_chunk_ids":["lecture13_p045"]}
+{"question":"Dog images showing original, horizontal flip, and vertical flip versions?","relevant_chunk_ids":["lecture13_p046"]}
+{"question":"Pineapple rotated at 0, 90, 180, and 270 degree angles?","relevant_chunk_ids":["lecture13_p047"]}
+{"question":"Cherry images at different scale factors (0.9, 0.75, 0.6)?","relevant_chunk_ids":["lecture13_p048"]}
+{"question":"CNN architecture diagrams showing which layers to freeze vs train?","relevant_chunk_ids":["lecture13_p037"]}
+{"question":"Object detector diagram with ConvNet, RoI projection, and softmax regressor?","relevant_chunk_ids":["lecture14_p033"]}
+{"question":"Cow image with green bounding box projecting onto 3D feature map grid?","relevant_chunk_ids":["lecture14_p034"]}
+{"question":"Detector diagram with sliding window, anchor boxes, and score/coordinate outputs?","relevant_chunk_ids":["lecture14_p040"]}
+{"question":"Two-stage detector diagram showing classification and bbox regression losses?","relevant_chunk_ids":["lecture14_p041"]}
+{"question":"Image with CNN processing through 3D grid containing red and green boxes?","relevant_chunk_ids":["lecture14_p042"]}
+{"question":"Street scene with person/dog and colored bounding boxes plus IoU examples?","relevant_chunk_ids":["lecture14_p047"]}
+{"question":"Grid of detection results with colored bounding boxes on various objects?","relevant_chunk_ids":["lecture14_p049"]}
+{"question":"Bar chart comparing R-CNN, SPP-Net, Fast R-CNN, Faster R-CNN speeds?","relevant_chunk_ids":["lecture14_p050"]}
+{"question":"Block diagram showing VGG-16 backbone through conv layers to detection output?","relevant_chunk_ids":["lecture14_p055"]}
+{"question":"CT scan images showing dilation, erosion, and gradient difference operations?","relevant_chunk_ids":["lecture11_p031"]}
+{"question":"Multiple cat photos demonstrating viewpoint, illumination, and occlusion challenges?","relevant_chunk_ids":["lecture12_p002"]}
+{"question":"Sequential boxes connected by arrows showing image processing pipeline stages?","relevant_chunk_ids":["lecture12_p003"]}
+{"question":"Cat image as 32x32x3 array with weight matrix producing class scores?","relevant_chunk_ids":["lecture12_p006"]}
+{"question":"Neural network diagrams showing input, hidden, and output layers with connections?","relevant_chunk_ids":["lecture12_p009"]}
+{"question":"Cow image with ground truth labels for water, grass, building, bicycle, road?","relevant_chunk_ids":["lecture10_p016"]}
+{"question":"Pixel grid showing label assignment with N4 and N8 neighbor diagrams?","relevant_chunk_ids":["lecture10_p022"]}
+{"question":"Grid diagrams showing seed pixel with grown pixels and pixel being considered?","relevant_chunk_ids":["lecture10_p023"]}
+{"question":"Four sequential images showing inverted spots transforming to colored blobs?","relevant_chunk_ids":["lecture10_p028"]}
+{"question":"Three diagrams with blue dots and circles transitioning from yellow to red to green?","relevant_chunk_ids":["lecture10_p035"]}
+{"question":"Street scene paired with 2D scatter plot and 3D density surface?","relevant_chunk_ids":["lecture10_p037"]}
+{"question":"Original scenes above and cluster-mean replaced versions below with arrows?","relevant_chunk_ids":["lecture10_p039"]}
+{"question":"Diagrams labeled 1D through 5D showing spatial and time-lapse combinations?","relevant_chunk_ids":["lecture16_p002"]}
+{"question":"Blue and yellow star images with combined difference result?","relevant_chunk_ids":["lecture16_p009"]}
+{"question":"Campus scene minus background producing white silhouettes on dark image?","relevant_chunk_ids":["lecture16_p011"]}
+{"question":"Sequence showing grayscale to silhouettes to colored bounding boxes around people?","relevant_chunk_ids":["lecture16_p012"]}
+{"question":"Diagrams showing zoom out, zoom in, and pan left motion vector patterns?","relevant_chunk_ids":["lecture16_p016"]}
+{"question":"Two snowy mountain photos with red squares and connecting lines for correspondences?","relevant_chunk_ids":["lecture16_p017"]}
+{"question":"Two frames showing template T, search region R, and motion vector from Pi to Qi?","relevant_chunk_ids":["lecture16_p020"]}
+{"question":"Subimages A and B with histograms and joint probability matrix for similarity?","relevant_chunk_ids":["lecture16_p022"]}

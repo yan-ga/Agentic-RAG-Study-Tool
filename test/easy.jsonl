@@ -1,0 +1,169 @@
+{"question":"What is a colour histogram?","relevant_chunk_ids":["lecture6_p016"]}
+{"question":"What is LBP and why use it?","relevant_chunk_ids":["lecture6_p027"]}
+{"question":"SIFT: main stages and goal?","relevant_chunk_ids":["lecture6_p034"]}
+{"question":"How does SIFT descriptor matching work?","relevant_chunk_ids":["lecture6_p043"]}
+{"question":"What spatial transforms are used for alignment?","relevant_chunk_ids":["lecture6_p047"]}
+{"question":"Least-squares alignment: how are parameters estimated?","relevant_chunk_ids":["lecture6_p057"]}
+{"question":"k-means: how do assignment and centroid updates work?","relevant_chunk_ids":["lecture7_p008"]}
+{"question":"BoW: why do we encode local features?","relevant_chunk_ids":["lecture7_p007"]}
+{"question":"What is HOG and what does it capture?","relevant_chunk_ids":["lecture7_p039"]}
+{"question":"Binary shape descriptors: name key ones.","relevant_chunk_ids":["lecture7_p019"]}
+{"question":"How does Nearest Class Mean work?","relevant_chunk_ids":["lecture8_p021"]}
+{"question":"What is the Bayes decision rule?","relevant_chunk_ids":["lecture8_p041"]}
+{"question":"Decision trees: what is entropy?","relevant_chunk_ids":["lecture8_p050"]}
+{"question":"Decision trees: what is information gain?","relevant_chunk_ids":["lecture8_p051"]}
+{"question":"What is a Random Forest and why better?","relevant_chunk_ids":["lecture8_p060"]}
+{"question":"SVM: core idea?","relevant_chunk_ids":["lecture9_p010"]}
+{"question":"Why soft-margin SVM?","relevant_chunk_ids":["lecture9_p017"]}
+{"question":"What is a confusion matrix?","relevant_chunk_ids":["lecture9_p028"]}
+{"question":"Precision vs recall?","relevant_chunk_ids":["lecture9_p030"]}
+{"question":"What does an ROC curve show?","relevant_chunk_ids":["lecture9_p026"]}
+{"question":"Why cross-validation?","relevant_chunk_ids":["lecture9_p041"]}
+{"question":"Connected components labelling: main steps?","relevant_chunk_ids":["lecture10_p022"]}
+{"question":"Watershed segmentation: high-level idea?","relevant_chunk_ids":["lecture10_p026"]}
+{"question":"Graph cuts: how do min-cut/max-flow relate?","relevant_chunk_ids":["lecture10_p048"]}
+{"question":"Jaccard vs Dice: what are they for?","relevant_chunk_ids":["lecture10_p063"]}
+{"question":"CNN conv layer: what does it do?","relevant_chunk_ids":["lecture12_p046"]}
+{"question":"What does stride change?","relevant_chunk_ids":["lecture12_p059"]}
+{"question":"What is padding and why use it?","relevant_chunk_ids":["lecture12_p060"]}
+{"question":"What is dilated convolution and why use it?","relevant_chunk_ids":["lecture12_p063"]}
+{"question":"Pooling: what and why?","relevant_chunk_ids":["lecture12_p048"]}
+{"question":"BatchNorm: what does it do?","relevant_chunk_ids":["lecture13_p056"]}
+{"question":"Dropout: what and why?","relevant_chunk_ids":["lecture13_p054"]}
+{"question":"Data augmentation: why helps?","relevant_chunk_ids":["lecture13_p043"]}
+{"question":"Early stopping: why helps?","relevant_chunk_ids":["lecture13_p042"]}
+{"question":"Why optimizer choice matters?","relevant_chunk_ids":["lecture13_p057"]}
+{"question":"ResNet: what problem and key idea?","relevant_chunk_ids":["lecture13_p020"]}
+{"question":"What is IoU?","relevant_chunk_ids":["lecture14_p009"]}
+{"question":"Selective Search: what does it do?","relevant_chunk_ids":["lecture14_p020"]}
+{"question":"R-CNN pipeline: main steps?","relevant_chunk_ids":["lecture14_p024"]}
+{"question":"SPP-Net: what and why useful?","relevant_chunk_ids":["lecture14_p030"]}
+{"question":"Fast R-CNN: how is it faster than R-CNN?","relevant_chunk_ids":["lecture14_p031"]}
+{"question":"Faster R-CNN: what is the RPN idea?","relevant_chunk_ids":["lecture14_p041"]}
+{"question":"Two-stage vs one-stage detectors?","relevant_chunk_ids":["lecture14_p052"]}
+{"question":"YOLO: core idea?","relevant_chunk_ids":["lecture14_p057"]}
+{"question":"FPN: what problem does it solve?","relevant_chunk_ids":["lecture14_p062"]}
+{"question":"RetinaNet: key contribution?","relevant_chunk_ids":["lecture14_p063"]}
+{"question":"U-Net: why effective for segmentation?","relevant_chunk_ids":["lecture15_p028"]}
+{"question":"Why RoI Align vs RoI Pooling?","relevant_chunk_ids":["lecture15_p035"]}
+{"question":"RoI Align: how does it work?","relevant_chunk_ids":["lecture15_p036"]}
+{"question":"Optical flow: equation + assumption?","relevant_chunk_ids":["lecture16_p026"]}
+{"question":"Kalman filter: main steps?","relevant_chunk_ids":["lecture17_p022"]}
+{"question":"What is thresholding in segmentation?","relevant_chunk_ids":["lecture10_p010"]}
+{"question":"What is pixel connectivity in 2D and 3D?","relevant_chunk_ids":["lecture10_p020"]}
+{"question":"What is mean shifting segmentation?","relevant_chunk_ids":["lecture10_p034"]}
+{"question":"What is MSER (Maximally Stable Extremal Regions)?","relevant_chunk_ids":["lecture10_p030"]}
+{"question":"What is region growing?","relevant_chunk_ids":["lecture10_p023"]}
+{"question":"What are the four types of CV tasks (classification, localisation, segmentation)?","relevant_chunk_ids":["lecture10_p005"]}
+{"question":"What is the ReLU activation function?","relevant_chunk_ids":["lecture12_p017"]}
+{"question":"What is a fully connected layer in neural networks?","relevant_chunk_ids":["lecture12_p012"]}
+{"question":"What is deep learning?","relevant_chunk_ids":["lecture12_p022"]}
+{"question":"What is the Vision Transformer (ViT)?","relevant_chunk_ids":["lecture13_p026"]}
+{"question":"What is AlexNet and its key contributions?","relevant_chunk_ids":["lecture13_p016"]}
+{"question":"What is VGG network?","relevant_chunk_ids":["lecture13_p017"]}
+{"question":"What is GoogLeNet and the Inception module?","relevant_chunk_ids":["lecture13_p019"]}
+{"question":"What is DenseNet?","relevant_chunk_ids":["lecture13_p022"]}
+{"question":"What is EfficientNet and compound scaling?","relevant_chunk_ids":["lecture13_p023"]}
+{"question":"What is the MNIST dataset?","relevant_chunk_ids":["lecture13_p009"]}
+{"question":"What is CIFAR-10 dataset?","relevant_chunk_ids":["lecture13_p011"]}
+{"question":"What is ImageNet dataset?","relevant_chunk_ids":["lecture13_p012"]}
+{"question":"What is Non-Maximum Suppression (NMS)?","relevant_chunk_ids":["lecture14_p047"]}
+{"question":"What are anchor boxes in object detection?","relevant_chunk_ids":["lecture14_p042"]}
+{"question":"What is SSD (Single Shot MultiBox Detector)?","relevant_chunk_ids":["lecture14_p054"]}
+{"question":"What is change detection in video?","relevant_chunk_ids":["lecture16_p009"]}
+{"question":"What is image subtraction for motion detection?","relevant_chunk_ids":["lecture16_p011"]}
+{"question":"What is a motion vector?","relevant_chunk_ids":["lecture16_p016"]}
+{"question":"What is sparse motion estimation?","relevant_chunk_ids":["lecture16_p017"]}
+{"question":"What is TimeSformer for video understanding?","relevant_chunk_ids":["lecture15_p066"]}
+{"question":"What is ViViT (Video Vision Transformer)?","relevant_chunk_ids":["lecture15_p068"]}
+{"question":"What is LeNet-5?","relevant_chunk_ids":["lecture13_p015"]}
+{"question":"What is SENet (Squeeze-and-Excitation Network)?","relevant_chunk_ids":["lecture13_p021"]}
+{"question":"What is ConvNeXt?","relevant_chunk_ids":["lecture13_p027"]}
+{"question":"What is binary dilation in morphology?","relevant_chunk_ids":["lecture11_p005"]}
+{"question":"What is binary erosion in morphology?","relevant_chunk_ids":["lecture11_p006"]}
+{"question":"What is a structuring element?","relevant_chunk_ids":["lecture11_p007"]}
+{"question":"What is morphological opening?","relevant_chunk_ids":["lecture11_p009"]}
+{"question":"What is morphological closing?","relevant_chunk_ids":["lecture11_p010"]}
+{"question":"What is the distance transform?","relevant_chunk_ids":["lecture11_p016"]}
+{"question":"What is skeletonization in image processing?","relevant_chunk_ids":["lecture11_p021"]}
+{"question":"What is 3D convolution for video?","relevant_chunk_ids":["lecture15_p045"]}
+{"question":"What is the C3D network?","relevant_chunk_ids":["lecture15_p055"]}
+{"question":"What is a two-stream network for video?","relevant_chunk_ids":["lecture15_p061"]}
+{"question":"What is LRCN (Long-term Recurrent Convolutional Network)?","relevant_chunk_ids":["lecture15_p064"]}
+{"question":"What is the UCF101 dataset?","relevant_chunk_ids":["lecture15_p050"]}
+{"question":"What is the Kinetics dataset?","relevant_chunk_ids":["lecture15_p051"]}
+{"question":"What is transpose convolution (deconvolution)?","relevant_chunk_ids":["lecture15_p020"]}
+{"question":"What is the pinhole camera model?","relevant_chunk_ids":["lecture2_p010"]}
+{"question":"What is perspective projection?","relevant_chunk_ids":["lecture2_p025"]}
+{"question":"What is a vanishing point?","relevant_chunk_ids":["lecture2_p016"]}
+{"question":"What is the RGB color space?","relevant_chunk_ids":["lecture2_p031"]}
+{"question":"What is the HSV color space?","relevant_chunk_ids":["lecture2_p032"]}
+{"question":"What is the L*a*b* color space?","relevant_chunk_ids":["lecture2_p034"]}
+{"question":"What does the slide show about 4-connected vs 8-connected pixels?","relevant_chunk_ids":["lecture10_p020"]}
+{"question":"What diagram shows the watershed segmentation with basins and dams?","relevant_chunk_ids":["lecture10_p025"]}
+{"question":"What slide shows colored watershed segmentation output?","relevant_chunk_ids":["lecture10_p027"]}
+{"question":"What slide shows region growing on brain MRI scans?","relevant_chunk_ids":["lecture10_p024"]}
+{"question":"What slide shows a 3D CNN diagram with kernel and data blocks?","relevant_chunk_ids":["lecture15_p045"]}
+{"question":"What slide shows the U-Net encoder-decoder architecture?","relevant_chunk_ids":["lecture15_p028"]}
+{"question":"What slide shows the two-stream network with spatial and temporal streams?","relevant_chunk_ids":["lecture15_p061"]}
+{"question":"What slide shows the CNN architecture with conv, pool, and FC layers?","relevant_chunk_ids":["lecture12_p053"]}
+{"question":"What slide shows stride with input/output grid diagrams?","relevant_chunk_ids":["lecture12_p058"]}
+{"question":"What slide shows padding with before/after matrices?","relevant_chunk_ids":["lecture12_p060"]}
+{"question":"What slide shows dilation with spaced kernel elements?","relevant_chunk_ids":["lecture12_p064"]}
+{"question":"What slide shows ReLU activation with filter output tables?","relevant_chunk_ids":["lecture12_p065"]}
+{"question":"What slide shows flattening from 2x2 grid to 1D vector?","relevant_chunk_ids":["lecture12_p051"]}
+{"question":"What slide shows the convolution operation with 32x32x3 image and 5x5x3 filter?","relevant_chunk_ids":["lecture12_p068"]}
+{"question":"What slide shows activation maps stacking to form output volume?","relevant_chunk_ids":["lecture12_p075"]}
+{"question":"What slide shows RGB channel separation of a parrot image?","relevant_chunk_ids":["lecture2_p030"]}
+{"question":"What slide shows the HSV color cone diagram?","relevant_chunk_ids":["lecture2_p032"]}
+{"question":"What slide shows vanishing points on railroad tracks?","relevant_chunk_ids":["lecture2_p016"]}
+{"question":"What slide shows the pinhole camera with focal length diagram?","relevant_chunk_ids":["lecture2_p010"]}
+{"question":"What slide shows optical illusions demonstrating human vision limitations?","relevant_chunk_ids":["lecture1_p006"]}
+{"question":"What slide shows face detection with bounding boxes on cameras?","relevant_chunk_ids":["lecture1_p019"]}
+{"question":"What slide shows the Mars rover panorama for space exploration?","relevant_chunk_ids":["lecture1_p025"]}
+{"question":"What slide shows autonomous vehicle camera positions diagram?","relevant_chunk_ids":["lecture1_p024"]}
+{"question":"What slide shows optical character recognition with license plates?","relevant_chunk_ids":["lecture1_p022"]}
+{"question":"What slide shows k-means clustering with original and labeled images?","relevant_chunk_ids":["lecture10_p015"]}
+{"question":"What slide shows connected components with different object counts?","relevant_chunk_ids":["lecture10_p021"]}
+{"question":"What slide shows mean shifting with 3D color scatter plot?","relevant_chunk_ids":["lecture10_p032"]}
+{"question":"What slide shows MSER segmentation with color-coded regions?","relevant_chunk_ids":["lecture10_p031"]}
+{"question":"What slide shows binary morphology dilation adding pixels?","relevant_chunk_ids":["lecture11_p005"]}
+{"question":"What slide shows the ConvNeXt bar chart comparing model performance?","relevant_chunk_ids":["lecture13_p027"]}
+{"question":"What slide shows the 3D loss landscape with starting and target points?","relevant_chunk_ids":["lecture13_p033"]}
+{"question":"What slide shows training methodology flowchart with data splits?","relevant_chunk_ids":["lecture13_p034"]}
+{"question":"What slide shows overfitting/underfitting loss curves with shaded regions?","relevant_chunk_ids":["lecture13_p039"]}
+{"question":"What slide shows data augmentation with salt-pepper noise on fruit images?","relevant_chunk_ids":["lecture13_p044"]}
+{"question":"What slide shows data augmentation cropping with cat face grid?","relevant_chunk_ids":["lecture13_p045"]}
+{"question":"What slide shows data augmentation flipping with dog images?","relevant_chunk_ids":["lecture13_p046"]}
+{"question":"What slide shows data augmentation rotation with pineapple at different angles?","relevant_chunk_ids":["lecture13_p047"]}
+{"question":"What slide shows data augmentation scaling with cherries at different scales?","relevant_chunk_ids":["lecture13_p048"]}
+{"question":"What slide shows transfer learning with CNN layer freezing diagrams?","relevant_chunk_ids":["lecture13_p037"]}
+{"question":"What slide shows Fast R-CNN architecture with horse rider image?","relevant_chunk_ids":["lecture14_p033"]}
+{"question":"What slide shows RoI Pooling with cow image projecting to feature map?","relevant_chunk_ids":["lecture14_p034"]}
+{"question":"What slide shows Region Proposal Network (RPN) diagram with anchor boxes?","relevant_chunk_ids":["lecture14_p040"]}
+{"question":"What slide shows Faster R-CNN with four loss functions connected?","relevant_chunk_ids":["lecture14_p041"]}
+{"question":"What slide shows anchor boxes diagram with cow image and CNN processing?","relevant_chunk_ids":["lecture14_p042"]}
+{"question":"What slide shows NMS with street scene and IoU calculation examples?","relevant_chunk_ids":["lecture14_p047"]}
+{"question":"What slide shows Faster R-CNN detection examples on PASCAL VOC?","relevant_chunk_ids":["lecture14_p049"]}
+{"question":"What slide shows R-CNN test-time speed bar chart comparison?","relevant_chunk_ids":["lecture14_p050"]}
+{"question":"What slide shows SSD architecture block diagram with VGG-16 backbone?","relevant_chunk_ids":["lecture14_p055"]}
+{"question":"What slide shows morphological gradient with CT scan images?","relevant_chunk_ids":["lecture11_p031"]}
+{"question":"What slide shows challenges in CV with cat images showing viewpoint variations?","relevant_chunk_ids":["lecture12_p002"]}
+{"question":"What slide shows typical CV pipeline as flowchart?","relevant_chunk_ids":["lecture12_p003"]}
+{"question":"What slide shows linear classifier with cat image and score function?","relevant_chunk_ids":["lecture12_p006"]}
+{"question":"What slide shows MLP architecture diagrams with 2 and 3 layers?","relevant_chunk_ids":["lecture12_p009"]}
+{"question":"What slide shows feature-based pixel classification with cow and ground truth labels?","relevant_chunk_ids":["lecture10_p016"]}
+{"question":"What slide shows connected components labelling with pixel grids and N4/N8 neighbors?","relevant_chunk_ids":["lecture10_p022"]}
+{"question":"What slide shows region growing with grid diagrams of seed and growing pixels?","relevant_chunk_ids":["lecture10_p023"]}
+{"question":"What slide shows watershed preprocessing with four sequential images?","relevant_chunk_ids":["lecture10_p028"]}
+{"question":"What slide shows mean shifting example with colored circles converging?","relevant_chunk_ids":["lecture10_p035"]}
+{"question":"What slide shows mean-shift segmentation with street scene and scatter plots?","relevant_chunk_ids":["lecture10_p037"]}
+{"question":"What slide shows mean-shift segmentation art with color replacement?","relevant_chunk_ids":["lecture10_p039"]}
+{"question":"What slide shows image dimensionality diagrams from 1D to 5D?","relevant_chunk_ids":["lecture16_p002"]}
+{"question":"What slide shows change detection with colored star images and subtraction?","relevant_chunk_ids":["lecture16_p009"]}
+{"question":"What slide shows image subtraction with campus scene and silhouettes?","relevant_chunk_ids":["lecture16_p011"]}
+{"question":"What slide shows image subtraction thresholding with bounding boxes?","relevant_chunk_ids":["lecture16_p012"]}
+{"question":"What slide shows motion vector diagrams with zoom in/out/pan patterns?","relevant_chunk_ids":["lecture16_p016"]}
+{"question":"What slide shows sparse motion estimation with mountain images and corresponding points?","relevant_chunk_ids":["lecture16_p017"]}
+{"question":"What slide shows template matching diagram with motion vector?","relevant_chunk_ids":["lecture16_p020"]}
+{"question":"What slide shows mutual information with histograms for template matching?","relevant_chunk_ids":["lecture16_p022"]}
