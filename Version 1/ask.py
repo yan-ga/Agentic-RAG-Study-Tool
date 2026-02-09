@@ -1,4 +1,3 @@
-# Codex: please review this file
 import sys, os, json, re, subprocess
 import numpy as np
 from rank_bm25 import BM25Okapi
