@@ -26,8 +26,8 @@ def encode_image(image_path):
     return base64.b64encode(buffered.getvalue()).decode("utf-8")
 
 # Thread persistence
-THREADS_FILE = "../state/threads.json"
-SQLITE_PATH = "../state/checkpoints.sqlite"
+THREADS_FILE = "../memory state/threads.json"
+SQLITE_PATH = "../memory state/checkpoints.sqlite"
 def load_threads():
     if os.path.exists(THREADS_FILE):
         with open(THREADS_FILE, "r", encoding="utf-8") as f:
