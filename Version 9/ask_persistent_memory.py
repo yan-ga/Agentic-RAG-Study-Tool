@@ -45,7 +45,7 @@ def retrieve(chunks, colpali_model, colpali_processor, colpali_page_embeds, quer
     return [chunks[i] for i in order]
 
 # Thread Management
-THREADS_FILE = "../state/threads.json"
+THREADS_FILE = "../memory state/threads.json"
 def load_threads():
     if os.path.exists(THREADS_FILE):
         with open(THREADS_FILE, "r", encoding="utf-8") as f:
@@ -62,7 +62,7 @@ def get_or_create_thread(threads, name):
     return threads[name]
 
 def delete_thread_from_sqlite(thread_id):
-    with sqlite3.connect("../state/checkpoints.sqlite") as conn:
+    with sqlite3.connect("../memory state/checkpoints.sqlite") as conn:
         conn.execute("DELETE FROM writes WHERE thread_id = ?", (thread_id,))
         conn.execute("DELETE FROM checkpoints WHERE thread_id = ?", (thread_id,))
         conn.commit()
@@ -167,7 +167,7 @@ def main():
         "8) Cite inline like [lectureX p.Y] for all sources you have used using doc_id + page_no from the tool results. Do not invent citations.\n"
     )
     
-    with SqliteSaver.from_conn_string("../state/checkpoints.sqlite") as checkpointer:
+    with SqliteSaver.from_conn_string("../memory state/checkpoints.sqlite") as checkpointer:
         agent = create_agent(
             model=model, 
             tools=[search_sources, analyse_slide_visuals], 
