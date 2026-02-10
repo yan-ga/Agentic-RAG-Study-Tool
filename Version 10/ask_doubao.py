@@ -1,11 +1,12 @@
-import os, io, json, base64, torch, uuid, sqlite3
+import os, io, json, base64, uuid, sqlite3
 import numpy as np
+import requests
 from PIL import Image
 
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 from langchain.tools import tool
-from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langchain.agents.middleware import (
     SummarizationMiddleware,
@@ -13,7 +14,11 @@ from langchain.agents.middleware import (
     ClearToolUsesEdit
 )
 
-from transformers import ColPaliForRetrieval, ColPaliProcessor
+DOUBAO_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
+DOUBAO_API_KEY = "REDACTED_API_KEY"
+DOUBAO_MODEL = "doubao-seed-1-6-lite-251015"
+EMBED_URL = "https://ark.cn-beijing.volces.com/api/v3/embeddings/multimodal"
+EMBED_MODEL = "doubao-embedding-vision-250615"
 
 # Utilities
 def encode_image(image_path):
@@ -31,17 +36,25 @@ def load_chunks(chunks_jsonl):
                 chunks.append(json.loads(line))
     return chunks
 
-def retrieve(chunks, colpali_model, colpali_processor, colpali_page_embeds, query, top_k=8):
-    # Obtain a ColPali score for each page.
-    colpali_model.eval()
-    with torch.no_grad():
-        q_inputs = colpali_processor(text=[query], return_tensors="pt").to(colpali_model.device)
-        q_emb = colpali_model(**q_inputs).embeddings
-        colpali_scores = colpali_processor.score_retrieval(q_emb, colpali_page_embeds)
-        colpali_scores = colpali_scores[0].cpu().numpy().astype(np.float32)
+def embed_query(text):
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {DOUBAO_API_KEY}",
+    }
+    payload = {
+        "model": EMBED_MODEL,
+        "input": [{"type": "text", "text": text}],
+    }
+    resp = requests.post(EMBED_URL, headers=headers, json=payload, timeout=30)
+    resp.raise_for_status()
+    return np.array(resp.json()["data"]["embedding"], dtype=np.float32)
 
-    # Return the top-k results.
-    order = np.argsort(-colpali_scores)[:top_k]
+def retrieve(chunks, page_embeds, query, top_k=8):
+    q_emb = embed_query(query)
+    # Cosine similarity
+    norms = np.linalg.norm(page_embeds, axis=1) * np.linalg.norm(q_emb)
+    scores = page_embeds @ q_emb / np.where(norms > 0, norms, 1.0)
+    order = np.argsort(-scores)[:top_k]
     return [chunks[i] for i in order]
 
 # Thread Management
@@ -70,29 +83,26 @@ def delete_thread_from_sqlite(thread_id):
 # Load data
 chunks = load_chunks("../data/new_chunks.jsonl")
 
-# ColPali model + processor + precomputed page embeddings
-COLPALI_NAME = "vidore/colpali-v1.3-hf"
-colpali_model = ColPaliForRetrieval.from_pretrained(COLPALI_NAME, dtype=torch.float32, device_map="cpu")
-colpali_processor = ColPaliProcessor.from_pretrained(COLPALI_NAME)
-colpali_page_embeds = torch.load("../data/colpali_page_emb.pt")
+# Precomputed Doubao page embeddings
+page_embeds = np.load("../data/doubao_page_emb.npy")
 
-# Vision model
-vision_model = ChatOllama(model="qwen3-vl:4b", temperature=0.0, num_ctx=10000, timeout=120)
+# Vision model (Doubao supports vision natively)
+vision_model = ChatOpenAI(base_url=DOUBAO_BASE_URL, api_key=DOUBAO_API_KEY, model=DOUBAO_MODEL, temperature=0.0)
 
 # Tools
 @tool
 def search_sources(query, top_k=8):
     """
     Retrieve top lecture chunks relevant to the query.
-    
+
     Args:
         query: The search keywords for lecture content.
         top_k: The number of results to return. You must ALWAYS set this to 8 to ensure enough context for a high-quality answer.
-        
+
     Returns:
         A JSON string containing a list of {chunk_id, doc_id, page_no, text, visual_summary, image_path}.
     """
-    cands = retrieve(chunks, colpali_model, colpali_processor, colpali_page_embeds, query, top_k)
+    cands = retrieve(chunks, page_embeds, query, top_k)
 
     print("\n" + "=" * 80)
     print(f"[DEBUG] Query: {query}")
@@ -121,15 +131,15 @@ def search_sources(query, top_k=8):
 def analyse_slide_visuals(query, image_path):
     """
     Analyses the slide at image_path to answer a specific query.
-    
+
     Args:
         query: The specific question or detail to look for on the slide.
         image_path: The file path to the slide image (from search_sources).
-        
+
     Returns:
         A detailed text analysis of the slide's contents.
     """
-    
+
     print(f"[QUERY] {query}")
     print(f"[ANALYZING PIXELS] {image_path}")
 
@@ -148,11 +158,11 @@ def analyse_slide_visuals(query, image_path):
     return f"\n--- DETAILED ANALYSIS OF {image_path} ---\n{vision_analysis}\n"
 
 def main():
-    model = ChatOllama(model="qwen3:4b", temperature=0.0, num_ctx=10000)
+    model = ChatOpenAI(base_url=DOUBAO_BASE_URL, api_key=DOUBAO_API_KEY, model=DOUBAO_MODEL, temperature=0.0)
 
     system_prompt = (
         "You are a UNSW COMP9517 study assistant.\n\n"
-        
+
         "For lecture content related question:\n"
         "1) Call 'search_sources' first to find the best slide(s).\n"
         "2) Use ONLY the returned text + visual summaries to decide which slide(s) are relevant.\n"
@@ -163,14 +173,14 @@ def main():
         "   c) Only then, call 'analyse_slide_visuals' for the NEXT path if needed.\n"
         "5) Answer ONLY using the evidence from the returned sources.\n"
         "6) Answer directly, clearly and structurally (short headings/sections are preferred).\n"
-        "7) If evidence is missing/unclear, say what’s missing and ask a focused question.\n"
+        "7) If evidence is missing/unclear, say what's missing and ask a focused question.\n"
         "8) Cite inline like [lectureX p.Y] for all sources you have used using doc_id + page_no from the tool results. Do not invent citations.\n"
     )
-    
+
     with SqliteSaver.from_conn_string("../memory state/checkpoints.sqlite") as checkpointer:
         agent = create_agent(
-            model=model, 
-            tools=[search_sources, analyse_slide_visuals], 
+            model=model,
+            tools=[search_sources, analyse_slide_visuals],
             system_prompt=system_prompt,
             checkpointer=checkpointer,
             middleware=[
@@ -178,7 +188,7 @@ def main():
                 SummarizationMiddleware(model=model, trigger=("tokens", 8000), keep=("messages", 24))
             ]
         )
-    
+
         threads = load_threads()
         active = "default"
         thread_id = get_or_create_thread(threads, active)
@@ -191,11 +201,11 @@ def main():
                 query = input(f"You[{active}]> ").strip()
             except (EOFError, KeyboardInterrupt):
                 break
-        
+
             if not query:
                 print("Query cannot be empty.")
                 continue
-            
+
             if query == "/help":
                 print(
                     "\nCommands:\n"
@@ -208,16 +218,16 @@ def main():
                     "  /exit                  Exit the program\n"
                 )
                 continue
-            
+
             if query == "/threads":
                 print("Threads:", ", ".join(sorted(threads.keys())))
                 print("Active:", active)
                 continue
-            
+
             if query == "/active":
                 print("Active:", active)
                 continue
-            
+
             if query.startswith("/switch "):
                 name = query.split(" ", 1)[1].strip()
                 if not name:
@@ -230,7 +240,7 @@ def main():
                 thread_id = threads[active]
                 print(f"Switched to '{active}'.")
                 continue
-            
+
             if query.startswith("/new "):
                 name = query.split(" ", 1)[1].strip()
                 if not name:
@@ -246,7 +256,7 @@ def main():
                 thread_id = threads[active]
                 print(f"Created and switched to '{active}'.")
                 continue
-            
+
             if query.startswith("/delete "):
                 name = query.split(" ", 1)[1].strip()
                 if not name:
@@ -258,19 +268,19 @@ def main():
                 if name == "default":
                     print("Refusing to delete 'default'.")
                     continue
-                
+
                 tid = threads.pop(name)
                 save_threads(threads)
                 delete_thread_from_sqlite(tid)
                 print(f"Deleted '{name}'.")
-                
+
                 if active == name:
                     active = "default"
                     thread_id = threads["default"]
                     print("Switched to 'default'.")
-                
+
                 continue
-            
+
             if query == "/exit":
                 break
 

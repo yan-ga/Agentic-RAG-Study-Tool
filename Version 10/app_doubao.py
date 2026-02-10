@@ -1,5 +1,6 @@
-import os, io, json, base64, torch, uuid, sqlite3
+import os, io, json, base64, uuid, sqlite3
 import numpy as np
+import requests
 from PIL import Image
 
 import streamlit as st
@@ -7,7 +8,7 @@ import streamlit as st
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 from langchain.tools import tool
-from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langchain.agents.middleware import (
     SummarizationMiddleware,
@@ -15,7 +16,11 @@ from langchain.agents.middleware import (
     ClearToolUsesEdit
 )
 
-from transformers import ColPaliForRetrieval, ColPaliProcessor
+DOUBAO_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
+DOUBAO_API_KEY = "REDACTED_API_KEY"
+DOUBAO_MODEL = "doubao-seed-1-6-lite-251015"
+EMBED_URL = "https://ark.cn-beijing.volces.com/api/v3/embeddings/multimodal"
+EMBED_MODEL = "doubao-embedding-vision-250615"
 
 # Utilities
 def encode_image(image_path):
@@ -60,62 +65,57 @@ def load_chunks(chunks_jsonl):
     return chunks
 
 @st.cache_resource
-def load_colpali():
-    model = ColPaliForRetrieval.from_pretrained("vidore/colpali-v1.3-hf", dtype=torch.float32, device_map="cpu")
-    processor = ColPaliProcessor.from_pretrained("vidore/colpali-v1.3-hf")
-    return model, processor
+def load_doubao_page_embeds(path):
+    return np.load(path)
 
 @st.cache_resource
-def load_colpali_page_embeds(path):
-    return torch.load(path)
-
-@st.cache_resource
-def load_vision_model():
-    return ChatOllama(model="qwen3-vl:4b", temperature=0.0, num_ctx=10000, timeout=120)
-
-@st.cache_resource
-def load_text_agent_model():
-    return ChatOllama(model="qwen3:4b", temperature=0.0, num_ctx=10000)
+def load_doubao_model():
+    return ChatOpenAI(base_url=DOUBAO_BASE_URL, api_key=DOUBAO_API_KEY, model=DOUBAO_MODEL, temperature=0.0)
 
 # Retrieval
-def retrieve(chunks, colpali_model, colpali_processor, colpali_page_embeds, query, top_k=8):
-    # Obtain a ColPali score for each page.
-    colpali_model.eval()
-    with torch.no_grad():
-        q_inputs = colpali_processor(text=[query], return_tensors="pt").to(colpali_model.device)
-        q_emb = colpali_model(**q_inputs).embeddings
-        colpali_scores = colpali_processor.score_retrieval(q_emb, colpali_page_embeds)
-        colpali_scores = colpali_scores[0].cpu().numpy().astype(np.float32)
-        
-    # Return the top-k results.
-    order = np.argsort(-colpali_scores)[:top_k]
+def embed_query(text):
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {DOUBAO_API_KEY}",
+    }
+    payload = {
+        "model": EMBED_MODEL,
+        "input": [{"type": "text", "text": text}],
+    }
+    resp = requests.post(EMBED_URL, headers=headers, json=payload, timeout=30)
+    resp.raise_for_status()
+    return np.array(resp.json()["data"]["embedding"], dtype=np.float32)
+
+def retrieve(chunks, page_embeds, query, top_k=8):
+    q_emb = embed_query(query)
+    # Cosine similarity
+    norms = np.linalg.norm(page_embeds, axis=1) * np.linalg.norm(q_emb)
+    scores = page_embeds @ q_emb / np.where(norms > 0, norms, 1.0)
+    order = np.argsort(-scores)[:top_k]
     return [chunks[i] for i in order]
 
 # Load once
 CHUNKS_PATH = "../data/new_chunks.jsonl"
-COLPALI_EMB_PATH = "../data/colpali_page_emb.pt"
 
 chunks = load_chunks(CHUNKS_PATH)
+page_embeds = load_doubao_page_embeds("../data/doubao_page_emb.npy")
 
-colpali_model, colpali_processor = load_colpali()
-colpali_page_embeds = load_colpali_page_embeds(COLPALI_EMB_PATH)
-
-vision_model = load_vision_model()
+doubao_model = load_doubao_model()
 
 # Tools
 @tool
 def search_sources(query, top_k=8):
     """
     Retrieve top lecture chunks relevant to the query.
-    
+
     Args:
         query: The search keywords for lecture content.
         top_k: The number of results to return. You must ALWAYS set this to 8 to ensure enough context for a high-quality answer.
-        
+
     Returns:
         A JSON string containing a list of {chunk_id, doc_id, page_no, text, visual_summary, image_path}.
     """
-    cands = retrieve(chunks, colpali_model, colpali_processor, colpali_page_embeds, query, top_k)
+    cands = retrieve(chunks, page_embeds, query, top_k)
 
     results = [
         {
@@ -134,11 +134,11 @@ def search_sources(query, top_k=8):
 def analyse_slide_visuals(query, image_path):
     """
     Analyses the slide at image_path to answer a specific query.
-    
+
     Args:
         query: The specific question or detail to look for on the slide.
         image_path: The file path to the slide image (from search_sources).
-        
+
     Returns:
         A detailed text analysis of the slide's contents.
     """
@@ -154,15 +154,15 @@ def analyse_slide_visuals(query, image_path):
         {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{b64_data}"}},
     ])
 
-    vision_analysis = vision_model.invoke([msg]).content
+    vision_analysis = doubao_model.invoke([msg]).content
     return f"\n--- DETAILED ANALYSIS OF {image_path} ---\n{vision_analysis}\n"
 
 def run_agent(query, thread_id):
-    model = load_text_agent_model()
+    model = load_doubao_model()
 
     system_prompt = (
         "You are a UNSW COMP9517 study assistant.\n\n"
-        
+
         "For lecture content related question:\n"
         "1) Call 'search_sources' first to find the best slide(s).\n"
         "2) Use ONLY the returned text + visual summaries to decide which slide(s) are relevant.\n"
@@ -173,15 +173,15 @@ def run_agent(query, thread_id):
         "   c) Only then, call 'analyse_slide_visuals' for the NEXT path if needed.\n"
         "5) Answer ONLY using the evidence from the returned sources.\n"
         "6) Answer directly, clearly and structurally (short headings/sections are preferred).\n"
-        "7) If evidence is missing/unclear, say what’s missing and ask a focused question.\n"
+        "7) If evidence is missing/unclear, say what's missing and ask a focused question.\n"
         "8) Cite inline like [lectureX p.Y] for all sources you have used using doc_id + page_no from the tool results. Do not invent citations.\n"
     )
-        
+
     if "checkpointer" not in st.session_state:
         cm = SqliteSaver.from_conn_string(SQLITE_PATH)
         st.session_state._checkpointer_cm = cm
         st.session_state.checkpointer = cm.__enter__()
-    
+
     if "agent" not in st.session_state:
         st.session_state.agent = create_agent(
             model=model,
@@ -199,7 +199,7 @@ def run_agent(query, thread_id):
         {"messages": [HumanMessage(content=query)]},
         config={"configurable": {"thread_id": thread_id}}
     )
-    
+
     return result["messages"][-1].content
 
 # UI
@@ -215,7 +215,7 @@ with st.sidebar:
 
     if "active_thread" not in st.session_state:
         st.session_state.active_thread = "default"
-    
+
     threads = load_threads()
     names = sorted(threads.keys())
     # We might delete the active thread in another session. Thus, we must check it.
@@ -251,7 +251,7 @@ with st.sidebar:
             st.session_state.active_thread = "default"
         st.success(f"Deleted '{delete_name}'.")
         st.rerun()
-    
+
 question = st.text_input("Question", value="", placeholder="Ask anything from the COMP9517 slides…")
 
 if st.button("Ask") and question.strip():
