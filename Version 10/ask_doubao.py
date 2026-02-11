@@ -15,7 +15,7 @@ from langchain.agents.middleware import (
 )
 
 DOUBAO_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
-DOUBAO_API_KEY = "REDACTED_API_KEY"
+DOUBAO_API_KEY = os.environ["DOUBAO_API_KEY"]
 DOUBAO_MODEL = "doubao-seed-1-6-lite-251015"
 EMBED_URL = "https://ark.cn-beijing.volces.com/api/v3/embeddings/multimodal"
 EMBED_MODEL = "doubao-embedding-vision-250615"
@@ -104,16 +104,6 @@ def search_sources(query, top_k=8):
     """
     cands = retrieve(chunks, page_embeds, query, top_k)
 
-    print("\n" + "=" * 80)
-    print(f"[DEBUG] Query: {query}")
-    print("[DEBUG] Top-8 retrieved pages:\n")
-    for rank, c in enumerate(cands, start=1):
-        doc_id = c["doc_id"]
-        p = int(c["page_no"])
-        img = f"../data/page_images/{doc_id}_p{p:03d}.png"
-        print(f"{rank:02d}. {doc_id} p.{p:03d} | {img}")
-    print("=" * 80 + "\n")
-
     results = [
         {
             "chunk_id": c["chunk_id"],
@@ -139,9 +129,6 @@ def analyse_slide_visuals(query, image_path):
     Returns:
         A detailed text analysis of the slide's contents.
     """
-
-    print(f"[QUERY] {query}")
-    print(f"[ANALYZING PIXELS] {image_path}")
 
     b64_data = encode_image(image_path)
     vision_prompt = (

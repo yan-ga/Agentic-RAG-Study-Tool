@@ -1,7 +1,26 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
-.DS_Store
-.claude/
+*.pyo
+*.egg-info/
+
+# Environment & secrets
+.env
+.env.local
+
+# Data (large / copyrighted — rebuild with build/ scripts)
 data/
+
+# Runtime state
 memory state/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / tooling
+.claude/
+.idea/
+.vscode/
+*.swp

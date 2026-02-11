@@ -17,7 +17,7 @@ from langchain.agents.middleware import (
 )
 
 DOUBAO_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
-DOUBAO_API_KEY = "REDACTED_API_KEY"
+DOUBAO_API_KEY = os.environ["DOUBAO_API_KEY"]
 DOUBAO_MODEL = "doubao-seed-1-6-lite-251015"
 EMBED_URL = "https://ark.cn-beijing.volces.com/api/v3/embeddings/multimodal"
 EMBED_MODEL = "doubao-embedding-vision-250615"
