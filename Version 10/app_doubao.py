@@ -1,4 +1,13 @@
-import os, io, json, base64, uuid, sqlite3
+import os, io, json, base64, uuid, sqlite3, pathlib
+
+# Load .env from project root
+_env_file = pathlib.Path(__file__).resolve().parents[1] / ".env"
+if _env_file.exists():
+    for _line in _env_file.read_text().splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _v = _line.split("=", 1)
+            os.environ.setdefault(_k.strip(), _v.strip())
 import numpy as np
 import requests
 from PIL import Image
